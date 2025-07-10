@@ -7,6 +7,6 @@ resources:
 
 priorityClassName: overprovision-low
 
+extraAffinity: {}
 tolerations: []
 nodeSelector: {}
-affinity: {}

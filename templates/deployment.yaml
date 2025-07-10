@@ -15,20 +15,26 @@ spec:
         app.kubernetes.io/name: buffer-overprovision
     spec:
       priorityClassName: {{ .Values.priorityClassName }}
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: buffer-overprovision
+              topologyKey: kubernetes.io/hostname
+{{- if .Values.extraAffinity }}
+        {{ toYaml .Values.extraAffinity | indent 8 }}
+{{- end }}
 {{- if .Values.tolerations }}
       tolerations:
-{{ toYaml .Values.tolerations | indent 14 }}
+{{ toYaml .Values.tolerations | indent 8 }}
 {{- end }}
 {{- if .Values.nodeSelector }}
       nodeSelector:
-{{ toYaml .Values.nodeSelector | indent 14 }}
-{{- end }}
-{{- if .Values.affinity }}
-      affinity:
-{{ toYaml .Values.affinity | indent 14 }}
+{{ toYaml .Values.nodeSelector | indent 8 }}
 {{- end }}
       containers:
         - name: pause
           image: public.ecr.aws/eks-distro/kubernetes/pause:3.8
           resources:
-{{ toYaml .Values.resources | indent 18 }}
+{{ toYaml .Values.resources | indent 12 }}
