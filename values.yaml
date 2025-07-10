@@ -1,0 +1,12 @@
+replicaCount: 5
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 512Mi
+
+priorityClassName: overprovision-low
+
+tolerations: []
+nodeSelector: {}
+affinity: {}

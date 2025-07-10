@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: buffer-overprovision
+  labels:
+    app.kubernetes.io/name: buffer-overprovision
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: buffer-overprovision
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: buffer-overprovision
+    spec:
+      priorityClassName: {{ .Values.priorityClassName }}
+{{- if .Values.tolerations }}
+      tolerations:
+{{ toYaml .Values.tolerations | indent 14 }}
+{{- end }}
+{{- if .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 14 }}
+{{- end }}
+{{- if .Values.affinity }}
+      affinity:
+{{ toYaml .Values.affinity | indent 14 }}
+{{- end }}
+      containers:
+        - name: pause
+          image: public.ecr.aws/eks-distro/kubernetes/pause:3.8
+          resources:
+{{ toYaml .Values.resources | indent 18 }}

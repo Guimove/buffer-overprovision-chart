@@ -1,0 +1,6 @@
+This chart deploys low‑priority "buffer" pause pods so that Karpenter always has warm capacity ready.
+
+Quick start:
+  helm install buffer ./buffer-overprovision-chart
+
+Tune replicaCount and resources.requests to define how much spare capacity you keep.
